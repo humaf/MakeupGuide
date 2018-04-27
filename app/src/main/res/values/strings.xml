@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MakeupGuide</string>
+    <string name="MY_API_KEY">AIzaSyBwuVK3GeGODr9F_XtEoq6MieFfCsLEblE</string>
+    <string name="eyes_text">Eyes</string>
+    <string name="face_text">Face </string>
+    <string name="lips_text">Lips </string>
+</resources>

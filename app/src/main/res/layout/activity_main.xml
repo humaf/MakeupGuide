@@ -11,9 +11,9 @@
         android:id="@+id/eye_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/eyes"
         android:layout_gravity="center"
-        />
+        android:onClick="eyesClick"
+        android:src="@drawable/eyes" />
     <TextView
         android:id="@+id/eye_tv"
         android:layout_width="wrap_content"
@@ -22,13 +22,14 @@
         android:textAllCaps="true"
         android:layout_gravity="center"
         android:text="@string/eyes_text"/>
+
     <ImageView
         android:id="@+id/face_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:src="@drawable/face"
-        />
+        android:onClick="faceClick"
+        android:src="@drawable/face" />
     <TextView
         android:id="@+id/face_tv"
         android:layout_width="wrap_content"
@@ -39,14 +40,13 @@
         android:text="@string/face_text"/>
 
 
-
     <ImageView
         android:id="@+id/lips_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:src="@drawable/lips"
-        />
+        android:onClick="lipClick"
+        android:src="@drawable/lips" />
     <TextView
         android:id="@+id/lips_tv"
         android:layout_width="wrap_content"

@@ -13,7 +13,7 @@ import strawbericreations.com.makeupguide.R;
 public class VideosActivity extends AppCompatActivity {
 
 
-
+    private static final long NUMBER_OF_VIDEOS_RETURNED = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,6 @@ public class VideosActivity extends AppCompatActivity {
         VideoFragment fragobj = new VideoFragment();
         fragobj.setArguments(bundle);
 
-
     }
 
     public Boolean isNetworkAvailable(Context context) {
@@ -41,9 +40,6 @@ public class VideosActivity extends AppCompatActivity {
         if (networkInfo != null && networkInfo.isConnected()) {
             resultValue = true;
         }
-
         return resultValue;
-
-
     }
 }

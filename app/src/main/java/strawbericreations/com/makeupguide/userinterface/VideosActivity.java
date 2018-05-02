@@ -12,7 +12,6 @@ import strawbericreations.com.makeupguide.R;
 
 public class VideosActivity extends AppCompatActivity {
 
-
     private static final long NUMBER_OF_VIDEOS_RETURNED = 10;
 
     @Override

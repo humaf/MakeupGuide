@@ -16,8 +16,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         dataIntent = new Intent(this,VideosActivity.class);
-
-
     }
 
     public void eyesClick(View view){

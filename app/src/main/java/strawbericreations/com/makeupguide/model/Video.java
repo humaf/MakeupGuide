@@ -10,9 +10,9 @@ import android.os.Parcelable;
 
 public class Video implements Parcelable{
 
-    private static  String id;
-    private  static String thumbnailURL;
-    private  static String title;
+    private  String id;
+    private   String thumbnailURL;
+    private String title;
 
   /*  public Video(String title, String imageUrl, String videoId) {
         this.title = title;

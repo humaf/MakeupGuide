@@ -30,26 +30,18 @@ import strawbericreations.com.makeupguide.model.Video;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder> {
 
-    private ArrayList<Video> mvideoItemList = new ArrayList<Video>() ;
+    private ArrayList<Video> mvideoItemList  ;
     private Context mContext;
     private int layoutResourceId;
     private LayoutInflater inflater;
     private RecyclerView video_recyler;
 
 
-    public void addAll(List<Video> videoData) {
-        mvideoItemList= (ArrayList<Video>) videoData;
-    }
-
    public VideoAdapter(Context context, ArrayList<Video> videoItemList) {
         this.mvideoItemList = videoItemList;
         this.mContext = context;
     }
 
-    public int getItemCount() {
-       Log.i("size null or not", String.valueOf(mvideoItemList.size()));
-        return mvideoItemList.size();
-    }
 
     @Override
     public VideoHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,24 +50,59 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
         return new VideoHolder(itemView);
     }
 
+ /*   @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View row = convertView;
+        ViewHolder holder;
+        Log.i("getview", "getview");
+        if (row == null) {
+            row = inflater.inflate(layoutResourceId, parent, false);
+            holder = new ViewHolder();
+            holder.titleView = (TextView) row.findViewById(R.id.text_view);
+            holder.imageView = (ImageView) row.findViewById(R.id.image_item);
+            row.setTag(holder);
+        } else {
+            holder = (ViewHolder) row.getTag();
+        }
+        Movie item = movieItemList.get(position);
+        String iurl = item.getImage();
+        Log.i("Imageis", iurl);
+        Log.i("Movie in Adapter", item.toString());
+
+        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w92/" + movieItemList.get(position)
+                .getImage()).resize(320, 500).placeholder(R.drawable.placeholder).
+                into(holder.imageView);
+        return row;
+    }
+*/
     @Override
     public void onBindViewHolder(VideoHolder holder, int position) {
-        final Video video = mvideoItemList.get(position);
+        for(int i=0;i<mvideoItemList.size();i++){
+            Log.i("values",mvideoItemList.get(i).getTitle());
+        }
+        Log.i("Bindr position",String.valueOf(position));
+       Video video = mvideoItemList.get(position);
+       String title = video.getTitle();
+       Log.i("ttttttttttttttt",title);
+       Log.i("holder pos" ,String.valueOf(holder.getAdapterPosition()));
+         holder.titleView.setText(video.getTitle());
+      //  holder.titleView.setText(mvideoItemList.get(position).getTitle());
+        Log.i("Adapter title",mvideoItemList.get(position).getTitle().toString());
         Log.i("possssssssssssss", String.valueOf(position));
-        //     final Steps step = stepItemList.get(position);
-        System.out.println("----p" + position);
         String imageUrl = video.getThumbnailURL();
         Log.i("Adapter image",imageUrl);
 
         if (imageUrl != null) {
-        //    Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
-            Picasso.with(mContext).load(imageUrl).into(holder.imageView);
+            //    Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
+            //  Picasso.with(mContext).load(imageUrl).into(holder.imageView);
+            Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
         }
 
-        holder.titleView.setText(video.getTitle());
     }
-
-
+    public int getItemCount() {
+        Log.i("size null or not", String.valueOf(mvideoItemList.size()));
+        return mvideoItemList.size();
+    }
 
     public static class VideoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.text_view)

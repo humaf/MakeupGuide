@@ -39,7 +39,7 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     ArrayList<Video> dummy;
 
-    private static String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=eyemakeup&type=video&key=AIzaSyBwuVK3GeGODr9F_XtEoq6MieFfCsLEblE";
+    private static String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=eyemakeup&type=video&maxResults=20&key=AIzaSyBwuVK3GeGODr9F_XtEoq6MieFfCsLEblE";
 
     //   @BindView(R.id.recycler_video)
     RecyclerView recyclerView;
@@ -58,13 +58,12 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
         dummy = new ArrayList<Video>();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_video);
 
-        myAdapter = new VideoAdapter(getActivity(),dummy);
-        recyclerView.setAdapter(myAdapter);
+      //  myAdapter = new VideoAdapter(getActivity(),dummy);
+       // recyclerView.setAdapter(myAdapter);
 
         StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager); // set LayoutManager to RecyclerView
         recyclerView.setHasFixedSize(true);
-
         Log.i("start", "from here");
         getLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
         return rootView;
@@ -78,8 +77,9 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Video>> loader, ArrayList<Video> data) {
-        myAdapter.addAll(data);
-        myAdapter.notifyDataSetChanged();
+        myAdapter=new VideoAdapter(getActivity(),data);
+        recyclerView.setAdapter(myAdapter);
+     ///   myAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -89,6 +89,8 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
     public static class VideoListLoader extends AsyncTaskLoader<ArrayList<Video>> {
+
+        private static ArrayList<Video> videoArrayList;
 
         public VideoListLoader(Context context) {
             super(context);
@@ -129,52 +131,17 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
             }
             Log.i("JSON dattttt", result);
 
-            parseJsonData(result);
 
-            final ArrayList<Video> videoArrayList = parseJsonData(result);
-
-            return videoArrayList;
-
-        /*    try {
-             //   videoArrayList = null;
-                JSONObject object = new JSONObject(result);
-                JSONArray items = object.getJSONArray("items");
-             //   System.out.println("lets see" + items);
-                videoArrayList = new ArrayList<Video>();
-
-                for (int i=0 ; i<items.length() ; i++)
-                {
-                    JSONObject VideoObjects = items.getJSONObject(i);
-                    Video item = new Video();
-
-                    String snippet = VideoObjects.getString("snippet");
-                    Log.i("snippet",snippet);
-                    //    item.setTitle(title);
-                    String imageUrl = VideoObjects.getString("url");
-                    item.setThumbnailURL(imageUrl);
-                    String videoId = VideoObjects.getString("videoId");
-                    item.setId(videoId);
-
-                    Log.i("URl",imageUrl);
-                    videoArrayList.add(item);
-                  //  videoArrayList.add(new Video(title,imageUrl,videoId));
-                    Log.i("video list",videoArrayList.toString());
-                }
-
-                return videoArrayList;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }*/
+            return parseJsonData(result);
         }
 
         public static ArrayList<Video> parseJsonData(String jsonstr) {
 
-            final ArrayList<Video> videoArrayList = new ArrayList<Video>();
+         //   final ArrayList<Video> videoArrayList = new ArrayList<Video>();
             try {
                 JSONObject object = new JSONObject(jsonstr);
                 JSONArray items = object.getJSONArray("items");
+                videoArrayList = new ArrayList<Video>();
                 for (int i = 0; i < items.length(); i++) {
                     Video item = new Video();
                     JSONObject jObject = items.getJSONObject(i).getJSONObject("snippet");
@@ -191,15 +158,12 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
                     Log.i("IMAGE",image);
                     item.setThumbnailURL(image);
                     videoArrayList.add(item);
-
-
-                    }
+                }
                 } catch(JSONException e){
                     e.printStackTrace();
                 }
-
-
-                return videoArrayList;
+            Log.i("Video Array",videoArrayList.toString());
+            return videoArrayList;
         }
     }
 

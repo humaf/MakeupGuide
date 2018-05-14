@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 apply plugin: 'com.android.application'
 
 android {
@@ -54,8 +53,7 @@ dependencies {
         }
     }
 }
-||||||| merged common ancestors
-=======
+
 apply plugin: 'com.android.application'
 
 android {
@@ -110,4 +108,4 @@ dependencies {
     }
 
 }
->>>>>>> c501a30b4325b578475ffab73abe70e3b7811a45
+

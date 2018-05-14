@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -60,67 +59,3 @@
 
 
 </LinearLayout>
-||||||| merged common ancestors
-=======
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="builditbigger.strawbericreations.com.makeupguide.MainActivity">
-
-
-    <ImageView
-        android:id="@+id/eye_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:onClick="eyesClick"
-        android:src="@drawable/eyes" />
-    <TextView
-        android:id="@+id/eye_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textAllCaps="true"
-        android:layout_gravity="center"
-        android:text="@string/eyes_text"/>
-
-    <ImageView
-        android:id="@+id/face_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:onClick="faceClick"
-        android:src="@drawable/face" />
-    <TextView
-        android:id="@+id/face_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="18sp"
-        android:textAllCaps="true"
-        android:text="@string/face_text"/>
-
-
-    <ImageView
-        android:id="@+id/lips_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:onClick="lipClick"
-        android:src="@drawable/lips" />
-    <TextView
-        android:id="@+id/lips_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="18sp"
-        android:textAllCaps="true"
-        android:text="@string/lips_text"/>
-
-
-
-</LinearLayout>
->>>>>>> c501a30b4325b578475ffab73abe70e3b7811a45

@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <resources>
     <string name="app_name">MakeupGuide</string>
     <string name="MY_API_KEY">AIzaSyBwuVK3GeGODr9F_XtEoq6MieFfCsLEblE</string>
@@ -19,17 +19,3 @@
 
 
 
-||||||| merged common ancestors
-=======
-<resources>
-    <string name="app_name">MakeupGuide</string>
-    <string name="MY_API_KEY">AIzaSyBwuVK3GeGODr9F_XtEoq6MieFfCsLEblE</string>
-    <string name="eyes_text">Eyes</string>
-    <string name="face_text">Face </string>
-    <string name="lips_text">Lips </string>
-    <string name="YOUTUBE_URL"> https://www.googleapis.com/youtube/v3/search?part=contentDetails</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-</resources>
->>>>>>> c501a30b4325b578475ffab73abe70e3b7811a45

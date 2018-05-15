@@ -8,8 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import strawbericreations.com.makeupguide.R;
 import strawbericreations.com.makeupguide.adapter.VideoAdapter;
 import strawbericreations.com.makeupguide.model.Video;
@@ -34,13 +32,13 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     private static final int LOADER_ID = 1;
 
-    private Context mContext;
-
     private VideoAdapter myAdapter;
+
+    private RecyclerView.LayoutManager mLayoutManager;
 
     ArrayList<Video> dummy;
 
-    private static String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=eyemakeup&type=video&maxResults=20&key=YOUR_API_KEY";
+    private static String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=eyemakeup&type=video&maxResults=20&key=AIzaSyBwuVK3GeGODr9F_XtEoq6MieFfCsLEblE";
 
     //   @BindView(R.id.recycler_video)
     RecyclerView recyclerView;
@@ -58,12 +56,8 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
         dummy = new ArrayList<Video>();
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_video);
-
-      //  myAdapter = new VideoAdapter(getActivity(),dummy);
-       // recyclerView.setAdapter(myAdapter);
-
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(staggeredGridLayoutManager); // set LayoutManager to RecyclerView
+        mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(mLayoutManager); // set LayoutManager to RecyclerView
         recyclerView.setHasFixedSize(true);
         Log.i("start", "from here");
         getLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
@@ -80,7 +74,7 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoadFinished(Loader<ArrayList<Video>> loader, ArrayList<Video> data) {
         myAdapter=new VideoAdapter(getActivity(),data);
         recyclerView.setAdapter(myAdapter);
-     ///   myAdapter.notifyDataSetChanged();
+        myAdapter.notifyDataSetChanged();
     }
 
     @Override

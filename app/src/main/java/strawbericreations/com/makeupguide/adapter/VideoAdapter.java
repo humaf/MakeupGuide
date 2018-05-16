@@ -6,6 +6,7 @@ package strawbericreations.com.makeupguide.adapter;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,25 +15,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import strawbericreations.com.makeupguide.R;
 import strawbericreations.com.makeupguide.model.Video;
+import strawbericreations.com.makeupguide.userinterface.DetailActivity;
+import strawbericreations.com.makeupguide.userinterface.OnItemClickListener;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder> {
 
     private ArrayList<Video> mvideoItemList  ;
-    private Context mContext;
+    private static Context mContext;
+    private OnItemClickListener onItemClickListener;
     private int layoutResourceId;
     private LayoutInflater inflater;
     private RecyclerView video_recyler;
@@ -51,53 +47,32 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
         return new VideoHolder(itemView);
     }
 
- /*   @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View row = convertView;
-        ViewHolder holder;
-        Log.i("getview", "getview");
-        if (row == null) {
-            row = inflater.inflate(layoutResourceId, parent, false);
-            holder = new ViewHolder();
-            holder.titleView = (TextView) row.findViewById(R.id.text_view);
-            holder.imageView = (ImageView) row.findViewById(R.id.image_item);
-            row.setTag(holder);
-        } else {
-            holder = (ViewHolder) row.getTag();
-        }
-        Movie item = movieItemList.get(position);
-        String iurl = item.getImage();
-        Log.i("Imageis", iurl);
-        Log.i("Movie in Adapter", item.toString());
-
-        Picasso.with(mContext).load("http://image.tmdb.org/t/p/w92/" + movieItemList.get(position)
-                .getImage()).resize(320, 500).placeholder(R.drawable.placeholder).
-                into(holder.imageView);
-        return row;
-    }
-*/
     @Override
     public void onBindViewHolder(VideoHolder holder, int position) {
-        for(int i=0;i<mvideoItemList.size();i++){
-            Log.i("values",mvideoItemList.get(i).getTitle());
-        }
+
         Log.i("Bindr position",String.valueOf(position));
        Video video = mvideoItemList.get(position);
        String title = video.getTitle();
-       Log.i("ttttttttttttttt",title);
+
        Log.i("holder pos" ,String.valueOf(holder.getAdapterPosition()));
          holder.titleView.setText(video.getTitle());
-      //  holder.titleView.setText(mvideoItemList.get(position).getTitle());
-        Log.i("Adapter title",mvideoItemList.get(position).getTitle().toString());
-        Log.i("possssssssssssss", String.valueOf(position));
         String imageUrl = video.getThumbnailURL();
         Log.i("Adapter image",imageUrl);
 
+      final  String videoId = video.getId();
         if (imageUrl != null) {
-            //    Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
-            //  Picasso.with(mContext).load(imageUrl).into(holder.imageView);
             Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
         }
+        holder.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                System.out.println("gottcha!!");
+                final  Intent intent = new Intent(mContext, DetailActivity.class);
+                intent.putExtra("VideoId",videoId);
+                mContext.startActivity(intent);
+            }
+        });
+
 
     }
     public int getItemCount() {
@@ -112,16 +87,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
         @BindView(R.id.image_item)
         ImageView imageView;
 
+        private OnItemClickListener onItemClickListener;
+
 
         public VideoHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-//            titleView.setOnClickListener(this);
+           titleView.setOnClickListener(this);
         }
 
+        public void setOnItemClickListener(OnItemClickListener iListener){
+            this.onItemClickListener = iListener;
+        }
         @Override
         public void onClick(View view) {
-
+            onItemClickListener.onItemClick(view,getAdapterPosition());
         }
     }
 }

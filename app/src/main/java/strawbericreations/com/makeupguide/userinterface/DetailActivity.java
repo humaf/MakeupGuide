@@ -17,9 +17,7 @@ import static strawbericreations.com.makeupguide.utility.Constants.API_KEY;
 public class DetailActivity extends YouTubeBaseActivity {
 
     YouTubePlayerView youTubePlayerView;
-    Button play;
     Button fav;
-
     String vid;
 
     @Override

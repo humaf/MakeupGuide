@@ -3,25 +3,46 @@ package strawbericreations.com.makeupguide.userinterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import strawbericreations.com.makeupguide.R;
-import android.content.Context;
+import strawbericreations.com.makeupguide.utility.Constants;
+
 import android.util.Log;
 
 public class VideoActivity extends AppCompatActivity {
 
-    private static final long NUMBER_OF_VIDEOS_RETURNED = 10;
+    public static String url;
 
+
+    public String url1= Constants.API_URL_FACE;
+
+
+    public String url2 =Constants.API_URL_LIPS;
+
+    public String url3 = Constants.API_URL_EYE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-    //    String searchkey = getIntent().getStringExtra("keyword");
+       String searchkey = getIntent().getStringExtra("keyword");
+       System.out.println("huuuwwwwwwwwwwwwwwwww " + searchkey);
 
-      //  Bundle bundle = new Bundle();
-    //    bundle.putString("searchkey", searchkey);
+     if(searchkey.equals("facemakeup"))
+        {
+           url=  url1;
+       }
+       else if(searchkey.equals("lipsmakeup")) {
+         url = url2;
+     }
+      else
+          {
+             url = url3;
+         }
 
-      //  VideoFragment fragobj = new VideoFragment();
-       // fragobj.setArguments(bundle);
+       Bundle bundle = new Bundle();
+        bundle.putString("search", searchkey);
+
+        VideoFragment fragobj = new VideoFragment();
+       fragobj.setArguments(bundle);
         Log.i("Video Activity","Checking");
     }
 

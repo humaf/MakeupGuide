@@ -20,18 +20,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void eyesClick(View view){
-     //   dataIntent.putExtra("keyword","eyemakeup");
+        dataIntent.putExtra("keyword","eyemakeup");
         startActivity(dataIntent);
 
     }
 
     public void faceClick(View view){
-      //  dataIntent.putExtra("keyword","facemakeup");
+        dataIntent.putExtra("keyword","facemakeup");
        startActivity(dataIntent);
     }
 
     public void lipClick(View view){
-      //  dataIntent.putExtra("keyword","lipsmakeup");
+       dataIntent.putExtra("keyword","lipsmakeup");
         startActivity(dataIntent);
     }
 }

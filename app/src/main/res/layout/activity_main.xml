@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="builditbigger.strawbericreations.com.makeupguide.MainActivity">
+    tools:context="strawbericreations.com.makeupguide.userinterface.MainActivity">
 
 
     <ImageView

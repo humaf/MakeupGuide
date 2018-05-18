@@ -1,4 +1,3 @@
-
 package strawbericreations.com.makeupguide.userinterface;
 
 import java.io.IOException;
@@ -27,6 +26,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static strawbericreations.com.makeupguide.userinterface.VideoActivity.url;
+
 public class VideoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Video>> {
 
     private static final int LOADER_ID = 1;
@@ -37,7 +38,7 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     ArrayList<Video> dummy;
 
-    private static String url = "https://www.googleapis.com/youtube/v3/search?part=snippet&q=eyemakeup&type=video&maxResults=20&key=AIzaSyBwuVK3GeGODr9F_XtEoq6MieFfCsLEblE";
+  //  public static String urlss = url;
 
     //   @BindView(R.id.recycler_video)
     RecyclerView recyclerView;
@@ -50,6 +51,7 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
 
         Log.i("Coming till here", "frag");
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
@@ -82,8 +84,11 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
         recyclerView.setAdapter(null);
     }
 
+
+
     public static class VideoListLoader extends AsyncTaskLoader<ArrayList<Video>> {
 
+ //  String arg_val="lips" ;
         private static ArrayList<Video> videoArrayList;
 
         public VideoListLoader(Context context) {
@@ -98,7 +103,8 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
             HttpURLConnection urlConnection = null;
             try {
-                urls = new URL(url);
+
+                    urls = new URL(url);
 
                 urlConnection = (HttpURLConnection) urls.openConnection();
 
@@ -115,7 +121,6 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
                     result += current;
 
                     data = reader.read();
-
                 }
 
             } catch (MalformedURLException e) {
@@ -160,7 +165,6 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
             return videoArrayList;
         }
     }
-
 
 }
 

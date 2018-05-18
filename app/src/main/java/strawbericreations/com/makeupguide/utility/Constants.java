@@ -5,7 +5,7 @@ package strawbericreations.com.makeupguide.utility;
  */
 
 public class Constants {
-    public static final String API_KEY="AIzaSyBwuVK3GeGODr9F_XtEoq6MieFfCsLEblE";
+    public static final String API_KEY="YOUR_API_KEY";
     public static final String API_URL_EYE="https://www.googleapis.com/youtube/v3/search?part=snippet&q=eyemakeup&type=video&key=";
     public static final String API_URL_FACE="https://www.googleapis.com/youtube/v3/search?part=snippet&q=facemakeup&type=video&key=";
     public static final String API_URL_LIPS="https://www.googleapis.com/youtube/v3/search?part=snippet&q=lipsmakeup&type=video&key=";

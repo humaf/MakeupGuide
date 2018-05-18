@@ -1,5 +1,8 @@
 package strawbericreations.com.makeupguide.userinterface;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import strawbericreations.com.makeupguide.R;
@@ -47,7 +50,7 @@ public class VideoActivity extends AppCompatActivity {
     }
 
 
-/*    public Boolean isNetworkAvailable(Context context) {
+   public Boolean isNetworkAvailable(Context context) {
 
         Boolean resultValue = false; // Initial Value
 
@@ -59,5 +62,5 @@ public class VideoActivity extends AppCompatActivity {
         }
         return resultValue;
     }
-    */
+
 }

@@ -75,10 +75,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
 
 
     }
+
+    @Override
     public int getItemCount() {
-        Log.i("size null or not", String.valueOf(mvideoItemList.size()));
         return mvideoItemList.size();
     }
+
 
     public static class VideoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.text_view)

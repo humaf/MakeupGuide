@@ -38,7 +38,6 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     ArrayList<Video> dummy;
 
-  //  public static String urlss = url;
 
     //   @BindView(R.id.recycler_video)
     RecyclerView recyclerView;
@@ -88,7 +87,6 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     public static class VideoListLoader extends AsyncTaskLoader<ArrayList<Video>> {
 
- //  String arg_val="lips" ;
         private static ArrayList<Video> videoArrayList;
 
         public VideoListLoader(Context context) {
@@ -161,7 +159,7 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
                 } catch(JSONException e){
                     e.printStackTrace();
                 }
-            Log.i("Video Array",videoArrayList.toString());
+        
             return videoArrayList;
         }
     }

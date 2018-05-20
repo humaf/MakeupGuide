@@ -9,18 +9,18 @@ import strawbericreations.com.makeupguide.R;
 import strawbericreations.com.makeupguide.utility.Constants;
 
 import android.util.Log;
+import android.view.MenuItem;
 
 public class VideoActivity extends AppCompatActivity {
 
     public static String url;
 
 
-    public String url1= Constants.API_URL_FACE;
+    public static String url1= Constants.API_URL_FACE;
 
+    public  static String url2 =Constants.API_URL_LIPS;
 
-    public String url2 =Constants.API_URL_LIPS;
-
-    public String url3 = Constants.API_URL_EYE;
+    public static String url3 = Constants.API_URL_EYE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,16 +41,15 @@ public class VideoActivity extends AppCompatActivity {
              url = url3;
          }
 
-       Bundle bundle = new Bundle();
-        bundle.putString("search", searchkey);
-
-        VideoFragment fragobj = new VideoFragment();
-       fragobj.setArguments(bundle);
         Log.i("Video Activity","Checking");
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 
-   public Boolean isNetworkAvailable(Context context) {
+    public Boolean isNetworkAvailable(Context context) {
 
         Boolean resultValue = false; // Initial Value
 

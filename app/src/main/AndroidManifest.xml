@@ -22,6 +22,16 @@
         </activity>
         <activity android:name=".userinterface.VideoActivity" />
         <activity android:name=".userinterface.DetailActivity" />
+        <provider
+            android:authorities="strawbericreations.com.makeupguide"
+            android:name=".database.FavoritesProvider"
+            android:multiprocess="true"
+            android:enabled="true"
+            android:exported="true"
+            >
+        </provider>
+
     </application>
+
 
 </manifest>

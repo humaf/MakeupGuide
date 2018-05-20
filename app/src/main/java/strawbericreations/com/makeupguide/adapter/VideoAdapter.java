@@ -52,14 +52,16 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
 
         Log.i("Bindr position",String.valueOf(position));
        Video video = mvideoItemList.get(position);
-       String title = video.getTitle();
+     final  String title = video.getTitle();
 
        Log.i("holder pos" ,String.valueOf(holder.getAdapterPosition()));
          holder.titleView.setText(video.getTitle());
-        String imageUrl = video.getThumbnailURL();
+      final  String imageUrl = video.getThumbnailURL();
         Log.i("Adapter image",imageUrl);
 
       final  String videoId = video.getId();
+
+
         if (imageUrl != null) {
             Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
         }
@@ -69,6 +71,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
                 System.out.println("gottcha!!");
                 final  Intent intent = new Intent(mContext, DetailActivity.class);
                 intent.putExtra("VideoId",videoId);
+                intent.putExtra("Image",imageUrl);
+                intent.putExtra("Title",title);
                 mContext.startActivity(intent);
             }
         });
@@ -78,6 +82,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
 
     @Override
     public int getItemCount() {
+        Log.i("size in Adapter", String.valueOf(mvideoItemList.size()));
         return mvideoItemList.size();
     }
 

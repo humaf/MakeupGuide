@@ -9,7 +9,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import strawbericreations.com.makeupguide.R;
 import strawbericreations.com.makeupguide.adapter.VideoAdapter;
+import strawbericreations.com.makeupguide.database.FavoritesContract;
 import strawbericreations.com.makeupguide.model.Video;
+
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -38,6 +43,8 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     ArrayList<Video> dummy;
 
+    public static VideoActivity mInstance;
+
 
     //   @BindView(R.id.recycler_video)
     RecyclerView recyclerView;
@@ -51,7 +58,7 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-
+        mInstance = (VideoActivity) getActivity();
         Log.i("Coming till here", "frag");
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
         dummy = new ArrayList<Video>();
@@ -63,6 +70,8 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
         getLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
         return rootView;
     }
+
+
 
     @Override
     public Loader<ArrayList<Video>> onCreateLoader(int id, Bundle args) {
@@ -155,12 +164,55 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
                     Log.i("IMAGE",image);
                     item.setThumbnailURL(image);
                     videoArrayList.add(item);
+
                 }
                 } catch(JSONException e){
                     e.printStackTrace();
                 }
-        
+            Log.i("vvvvvvvvvvvv",videoArrayList.toString());
             return videoArrayList;
+        }
+    }
+
+    public static class FavoriteListLoader extends AsyncTaskLoader<ArrayList<Video>> {
+
+
+        private static ArrayList<Video> videos;
+
+        public FavoriteListLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        public ArrayList<Video> loadInBackground() {
+
+            Uri uri = FavoritesContract.FavoriteEntry.CONTENT_URI;
+            ContentResolver resolver = mInstance.getApplicationContext().getContentResolver();
+            Cursor cursor = null;
+
+            try {
+                videos = new ArrayList<Video>();
+                cursor = resolver.query(uri, null, null, null, null);
+
+                // clear movies
+                videos.clear();
+
+                if (cursor.moveToFirst()) {
+                    do {
+                        Video video = new Video();
+                        //    movie.setReviews(cursor.getString(6));
+                        //  movie.setTrailers(cursor.getString(7));
+                        videos.add(video);
+                    } while (cursor.moveToNext());
+                }
+
+            } finally {
+
+                if (cursor != null)
+                    cursor.close();
+            }
+            return videos;
+
         }
     }
 

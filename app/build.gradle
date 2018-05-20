@@ -111,5 +111,6 @@ dependencies {
 dependencies {
     implementation 'com.android.support.constraint:constraint-layout:+'
 }
+android { sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/menu'] } } }
 
 

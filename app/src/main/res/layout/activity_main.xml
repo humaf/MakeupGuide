@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/eye_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:onClick="eyesClick"
         android:src="@drawable/eyes" />
@@ -25,8 +25,8 @@
 
     <ImageView
         android:id="@+id/face_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:onClick="faceClick"
         android:src="@drawable/face" />
@@ -42,8 +42,8 @@
 
     <ImageView
         android:id="@+id/lips_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center"
         android:onClick="lipClick"
         android:src="@drawable/lips" />
@@ -56,6 +56,20 @@
         android:textAllCaps="true"
         android:text="@string/lips_text"/>
 
-
+    <ImageView
+        android:id="@+id/fav_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:onClick="favClick"
+        android:src="@drawable/favs" />
+    <TextView
+        android:id="@+id/fav_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:textAllCaps="true"
+        android:text="@string/fav_text"/>
 
 </LinearLayout>

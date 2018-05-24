@@ -34,4 +34,9 @@ public class MainActivity extends AppCompatActivity {
        dataIntent.putExtra("keyword","lipsmakeup");
         startActivity(dataIntent);
     }
+
+    public void favClick(View view){
+        dataIntent.putExtra("keyword","fav");
+        startActivity(dataIntent);
+    }
 }

@@ -15,12 +15,16 @@ public class VideoActivity extends AppCompatActivity {
 
     public static String url;
 
+   //  public static String Favorite;
+    public static boolean Favorite;
 
     public static String url1= Constants.API_URL_FACE;
 
     public  static String url2 =Constants.API_URL_LIPS;
 
     public static String url3 = Constants.API_URL_EYE;
+
+    public static String FAVO =Constants.FAVS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +33,11 @@ public class VideoActivity extends AppCompatActivity {
        String searchkey = getIntent().getStringExtra("keyword");
        System.out.println("huuuwwwwwwwwwwwwwwwww " + searchkey);
 
-     if(searchkey.equals("facemakeup"))
+       if (searchkey.equals("fav")){
+           Favorite = true;
+          // Log.i("Faaaaaaaaaaaaaaaaaaa",Favorite);
+       }
+   else  if(searchkey.equals("facemakeup"))
         {
            url=  url1;
        }

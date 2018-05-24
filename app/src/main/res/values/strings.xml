@@ -4,6 +4,7 @@
     <string name="eyes_text">Eyes</string>
     <string name="face_text">Face </string>
     <string name="lips_text">Lips </string>
+    <string name="fav_text">My Favorites</string>
     <string name="YOUTUBE_URL"> https://www.googleapis.com/youtube/v3/search?part=contentDetails</string>
 
     <!-- TODO: Remove or change this placeholder text -->

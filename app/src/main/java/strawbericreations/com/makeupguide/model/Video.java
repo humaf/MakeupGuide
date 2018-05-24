@@ -46,10 +46,7 @@ public class Video implements Parcelable{
     public void setTitle(String title) {
         this.title = title;
     }
-
-
-
-    @Override
+ @Override
     public int describeContents() {
         return 0;
     }

@@ -8,11 +8,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import strawbericreations.com.makeupguide.R;
+import strawbericreations.com.makeupguide.adapter.FavouriteAdapter;
 import strawbericreations.com.makeupguide.adapter.VideoAdapter;
 import strawbericreations.com.makeupguide.database.FavoritesContract;
 import strawbericreations.com.makeupguide.model.Video;
 
 import android.content.ContentResolver;
+//import android.content.CursorLoader;
+import android.support.v4.content.CursorLoader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.LoaderManager;
@@ -31,19 +34,26 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static strawbericreations.com.makeupguide.userinterface.VideoActivity.Favorite;
 import static strawbericreations.com.makeupguide.userinterface.VideoActivity.url;
 
-public class VideoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Video>> {
+public class VideoFragment extends Fragment implements LoaderManager.LoaderCallbacks {
 
     private static final int LOADER_ID = 1;
 
+    private static final int LOADER_FAV = 2;
+
     private VideoAdapter myAdapter;
+
+    private FavouriteAdapter fAdapter;
 
     private RecyclerView.LayoutManager mLayoutManager;
 
     ArrayList<Video> dummy;
 
     public static VideoActivity mInstance;
+
+    public String fav ="yes";
 
 
     //   @BindView(R.id.recycler_video)
@@ -57,7 +67,6 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         mInstance = (VideoActivity) getActivity();
         Log.i("Coming till here", "frag");
         View rootView = inflater.inflate(R.layout.fragment_video, container, false);
@@ -67,31 +76,58 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
         recyclerView.setLayoutManager(mLayoutManager); // set LayoutManager to RecyclerView
         recyclerView.setHasFixedSize(true);
         Log.i("start", "from here");
-        getLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+
+       if(Favorite) {
+            getLoaderManager().initLoader(LOADER_FAV, null, this).forceLoad();
+       }
+        else
+       {
+            getLoaderManager().initLoader(LOADER_ID,null,this).forceLoad();
+        }
+
         return rootView;
     }
 
-
-
     @Override
-    public Loader<ArrayList<Video>> onCreateLoader(int id, Bundle args) {
-        return new VideoListLoader(getActivity());
+    public Loader onCreateLoader(int id, Bundle args) {
+        if (id == LOADER_ID) {
+            Log.i("Proper Load", "coming or not");
+            return new VideoListLoader(getActivity());
+        } else if (id == LOADER_FAV) {
+            // return new FavoriteListLoader(getActivity());
+            String[] projection = new String[]{
+                    FavoritesContract.FavoriteEntry.COLUMN_ID,
+                    FavoritesContract.FavoriteEntry.COLUMN_IMAGE,
+                    FavoritesContract.FavoriteEntry.COLUMN_TITLE};
+
+            return new CursorLoader(getActivity(), FavoritesContract.FavoriteEntry.CONTENT_URI, projection, null, null, null);
+        }
+
+        return null;
     }
 
+    public void onLoadFinished(Loader loader,Object data) {
+        if(loader.getId()==LOADER_ID){
+            myAdapter = new VideoAdapter(getActivity(), (ArrayList<Video>) data);
+            recyclerView.setAdapter(myAdapter);
+            Log.i("Adapter set", "OnLoadFinished");
+            myAdapter.notifyDataSetChanged();
 
-    @Override
-    public void onLoadFinished(Loader<ArrayList<Video>> loader, ArrayList<Video> data) {
-        myAdapter=new VideoAdapter(getActivity(),data);
-        recyclerView.setAdapter(myAdapter);
-        myAdapter.notifyDataSetChanged();
+        }
+        else if(loader.getId()==LOADER_FAV){
+            fAdapter =  new FavouriteAdapter(getContext());
+            recyclerView.setAdapter(fAdapter);
+            Log.i("Adapter set fav","OnLoad");
+            Log.i("Data coming",data.toString());
+            fAdapter.swapCursor((Cursor)data);
+        }
     }
 
     @Override
-    public void onLoaderReset(Loader<ArrayList<Video>> loader) {
-
+    public void onLoaderReset(Loader loader) {
         recyclerView.setAdapter(null);
-    }
 
+    }
 
 
     public static class VideoListLoader extends AsyncTaskLoader<ArrayList<Video>> {
@@ -169,12 +205,12 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
                 } catch(JSONException e){
                     e.printStackTrace();
                 }
-            Log.i("vvvvvvvvvvvv",videoArrayList.toString());
+//            Log.i("vvvvvvvvvvvv",videoArrayList.toString());
             return videoArrayList;
         }
     }
 
-    public static class FavoriteListLoader extends AsyncTaskLoader<ArrayList<Video>> {
+/*    public static class FavoriteListLoader extends AsyncTaskLoader<ArrayList<Video>> {
 
 
         private static ArrayList<Video> videos;
@@ -215,6 +251,6 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
         }
     }
-
+*/
 }
 

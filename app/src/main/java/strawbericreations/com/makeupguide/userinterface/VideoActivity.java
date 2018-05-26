@@ -1,55 +1,113 @@
 package strawbericreations.com.makeupguide.userinterface;
 
-import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import strawbericreations.com.makeupguide.R;
-import strawbericreations.com.makeupguide.utility.Constants;
-
+import android.support.v4.content.CursorLoader;
+import android.database.Cursor;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.support.v7.widget.RecyclerView;
+import android.content.Context;
+import android.os.Bundle;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.support.v7.app.AppCompatActivity;
+import strawbericreations.com.makeupguide.R;
+import strawbericreations.com.makeupguide.adapter.FavouriteAdapter;
+import strawbericreations.com.makeupguide.adapter.VideoAdapter;
+import strawbericreations.com.makeupguide.database.FavoritesContract;
+import strawbericreations.com.makeupguide.model.Video;
+import strawbericreations.com.makeupguide.utility.Constants;
 import android.view.MenuItem;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 
-public class VideoActivity extends AppCompatActivity {
+public class VideoActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
+
+    private static final int LOADER_ID = 1;
+
+    private static final int LOADER_FAV = 2;
+
+    private VideoAdapter myAdapter;
+
+    private FavouriteAdapter fAdapter;
+
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    ArrayList<Video> dummy;
+
+    public boolean check = false;
+
+    public static VideoActivity mInstance;
+
+    public String fav_frag;
+
+    //   @BindView(R.id.recycler_video)
+    RecyclerView recyclerView;
 
     public static String url;
+    public  String fval;
+    public static String arguments;
 
-   //  public static String Favorite;
+    //  public static String Favorite;
     public static boolean Favorite;
 
-    public static String url1= Constants.API_URL_FACE;
+    public static String url1 = Constants.API_URL_FACE;
 
-    public  static String url2 =Constants.API_URL_LIPS;
+    public static String url2 = Constants.API_URL_LIPS;
 
     public static String url3 = Constants.API_URL_EYE;
 
-    public static String FAVO =Constants.FAVS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-       String searchkey = getIntent().getStringExtra("keyword");
-       System.out.println("huuuwwwwwwwwwwwwwwwww " + searchkey);
+        String searchkey = getIntent().getStringExtra("keyword");
+        System.out.println("huuuwwwwwwwwwwwwwwwww " + searchkey);
 
-       if (searchkey.equals("fav")){
-           Favorite = true;
-          // Log.i("Faaaaaaaaaaaaaaaaaaa",Favorite);
-       }
-   else  if(searchkey.equals("facemakeup"))
-        {
-           url=  url1;
-       }
-       else if(searchkey.equals("lipsmakeup")) {
-         url = url2;
-     }
+
+        dummy = new ArrayList<Video>();
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_video);
+        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(mLayoutManager); // set LayoutManager to RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        if (searchkey.equals("facemakeup")) {
+
+            url = url1;
+        } else if (searchkey.equals("lipsmakeup")) {
+
+            url = url2;
+        } else if (searchkey.equals("eyemakeup")) {
+
+            url = url3;
+        } else {
+            fval = "fav";
+
+
+            Log.i("favvvvvvv", fval);
+        }
+        System.out.println("aaaaaaaaaaaaa " + url);
+
+
+        if(url!=null && fval==null)
+        getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+
       else
-          {
-             url = url3;
-         }
+        getSupportLoaderManager().initLoader(LOADER_FAV, null,  this).forceLoad();
 
-        Log.i("Video Activity","Checking");
+
+        Log.i("Video Activity", "Checking");
     }
 
     @Override
@@ -70,4 +128,126 @@ public class VideoActivity extends AppCompatActivity {
         return resultValue;
     }
 
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+
+        if (id == LOADER_ID) {
+            Log.i("Proper Load", "coming or not");
+            return new VideoListLoader(this);
+        } else if (id == LOADER_FAV) {
+            // return new FavoriteListLoader(getActivity());
+            String[] projection = new String[]{
+                    FavoritesContract.FavoriteEntry.COLUMN_ID,
+                    FavoritesContract.FavoriteEntry.COLUMN_IMAGE,
+                    FavoritesContract.FavoriteEntry.COLUMN_TITLE};
+
+            return new CursorLoader(this, FavoritesContract.FavoriteEntry.CONTENT_URI, projection, null, null, null);
+        }
+
+        return null;
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader loader, Object data) {
+        if (loader.getId() == LOADER_ID) {
+            myAdapter = new VideoAdapter(this, (ArrayList<Video>) data);
+            recyclerView.setAdapter(myAdapter);
+            Log.i("Adapter set", "OnLoadFinished");
+            myAdapter.notifyDataSetChanged();
+        } else if (loader.getId() == LOADER_FAV) {
+            fAdapter = new FavouriteAdapter(this);
+            recyclerView.setAdapter(fAdapter);
+            Log.i("Adapter set fav", "OnLoad");
+            Log.i("Data coming", data.toString());
+            fAdapter.swapCursor((Cursor) data);
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+        recyclerView.setAdapter(null);
+    }
+
+
+    public static class VideoListLoader extends AsyncTaskLoader<ArrayList<Video>> {
+
+        private static ArrayList<Video> videoArrayList;
+
+        public VideoListLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        public ArrayList<Video> loadInBackground() {
+
+            String result = "";
+            URL urls;
+
+            HttpURLConnection urlConnection = null;
+            try {
+
+                urls = new URL(url);
+
+                urlConnection = (HttpURLConnection) urls.openConnection();
+
+                InputStream in = urlConnection.getInputStream();
+
+                InputStreamReader reader = new InputStreamReader(in);
+
+                int data = reader.read();
+
+                while (data != -1) {
+
+                    char current = (char) data;
+
+                    result += current;
+
+                    data = reader.read();
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.i("JSON dattttt", result);
+
+
+            return parseJsonData(result);
+        }
+
+        public static ArrayList<Video> parseJsonData(String jsonstr) {
+
+            //   final ArrayList<Video> videoArrayList = new ArrayList<Video>();
+            try {
+                JSONObject object = new JSONObject(jsonstr);
+                JSONArray items = object.getJSONArray("items");
+                videoArrayList = new ArrayList<Video>();
+                for (int i = 0; i < items.length(); i++) {
+                    Video item = new Video();
+                    JSONObject jObject = items.getJSONObject(i).getJSONObject("snippet");
+                    Log.i("snippet", jObject.toString());
+                    String title = jObject.getString("title");
+                    Log.i("TITLE", title);
+                    item.setTitle(title);
+                    JSONObject jObject1 = items.getJSONObject(i).getJSONObject("id");
+                    String id = jObject1.getString("videoId");
+                    Log.i("VideoID", id);
+                    item.setId(id);
+                    JSONObject jObject2 = items.getJSONObject(i).getJSONObject("snippet").getJSONObject("thumbnails").getJSONObject("default");
+                    String image = jObject2.getString("url");
+                    Log.i("IMAGE", image);
+                    item.setThumbnailURL(image);
+                    videoArrayList.add(item);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+//            Log.i("vvvvvvvvvvvv",videoArrayList.toString());
+            return videoArrayList;
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package strawbericreations.com.makeupguide.userinterface;
+/*package strawbericreations.com.makeupguide.userinterface;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,12 +12,10 @@ import strawbericreations.com.makeupguide.adapter.FavouriteAdapter;
 import strawbericreations.com.makeupguide.adapter.VideoAdapter;
 import strawbericreations.com.makeupguide.database.FavoritesContract;
 import strawbericreations.com.makeupguide.model.Video;
+import strawbericreations.com.makeupguide.utility.Constants;
 
-import android.content.ContentResolver;
-//import android.content.CursorLoader;
 import android.support.v4.content.CursorLoader;
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -33,9 +31,9 @@ import android.view.ViewGroup;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static strawbericreations.com.makeupguide.userinterface.VideoActivity.Favorite;
+//import static strawbericreations.com.makeupguide.userinterface.VideoActivity.fval;
 import static strawbericreations.com.makeupguide.userinterface.VideoActivity.url;
+import static strawbericreations.com.makeupguide.userinterface.VideoActivity.arguments;
 
 public class VideoFragment extends Fragment implements LoaderManager.LoaderCallbacks {
 
@@ -51,10 +49,11 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     ArrayList<Video> dummy;
 
+    public boolean check= false;
+
     public static VideoActivity mInstance;
 
-    public String fav ="yes";
-
+    public String fav_frag ;
 
     //   @BindView(R.id.recycler_video)
     RecyclerView recyclerView;
@@ -75,15 +74,30 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
         mLayoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager); // set LayoutManager to RecyclerView
         recyclerView.setHasFixedSize(true);
-        Log.i("start", "from here");
 
-       if(Favorite) {
-            getLoaderManager().initLoader(LOADER_FAV, null, this).forceLoad();
-       }
-        else
-       {
-            getLoaderManager().initLoader(LOADER_ID,null,this).forceLoad();
-        }
+       // String myValue = this.getArguments().getString("message");
+      //  Log.i("correct value",myValue);
+
+   /*  Bundle bundle = this.getArguments();
+        String myValue = bundle.getString("message");
+        Log.i("correct value",myValue);
+*/
+  //    String myValue = this.getArguments().getString("message");
+     //   Log.i("passed value",myValue);
+    //    Log.i("start", "from here");
+    //    System.out.println("blueeeeeeee" + fval);
+
+   /*   System.out.println("uuuuuuuuuuuuuuu " + url);
+        System.out.println("arrrrrrrrrrrr " + arguments);
+
+
+      //  if( fval==null && url!=null)
+       // if(fval==null)
+        if(arguments!="fav")
+           getLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+
+      else
+           getLoaderManager().initLoader(LOADER_FAV, null, this).forceLoad();
 
         return rootView;
     }
@@ -112,8 +126,8 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
             recyclerView.setAdapter(myAdapter);
             Log.i("Adapter set", "OnLoadFinished");
             myAdapter.notifyDataSetChanged();
-
         }
+
         else if(loader.getId()==LOADER_FAV){
             fAdapter =  new FavouriteAdapter(getContext());
             recyclerView.setAdapter(fAdapter);
@@ -126,7 +140,6 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public void onLoaderReset(Loader loader) {
         recyclerView.setAdapter(null);
-
     }
 
 
@@ -147,7 +160,7 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
             HttpURLConnection urlConnection = null;
             try {
 
-                    urls = new URL(url);
+                urls = new URL(url);
 
                 urlConnection = (HttpURLConnection) urls.openConnection();
 
@@ -252,5 +265,5 @@ public class VideoFragment extends Fragment implements LoaderManager.LoaderCallb
         }
     }
 */
-}
+//}
 

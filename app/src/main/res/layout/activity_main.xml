@@ -45,7 +45,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:onClick="lipClick"
+        android:onClick="lipsClick"
         android:src="@drawable/lips" />
     <TextView
         android:id="@+id/lips_tv"

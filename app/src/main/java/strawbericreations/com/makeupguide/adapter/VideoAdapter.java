@@ -28,10 +28,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
 
     private ArrayList<Video> mvideoItemList  ;
     private static Context mContext;
-    private OnItemClickListener onItemClickListener;
-    private int layoutResourceId;
-    private LayoutInflater inflater;
-    private RecyclerView video_recyler;
+
 
 
    public VideoAdapter(Context context, ArrayList<Video> videoItemList) {

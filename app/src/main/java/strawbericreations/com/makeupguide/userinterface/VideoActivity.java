@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.util.Log;
 import android.support.v7.widget.RecyclerView;
 import android.content.Context;
@@ -37,9 +37,7 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
 
     private static final int LOADER_FAV = 2;
 
-    private VideoAdapter myAdapter;
-
-    private FavouriteAdapter fAdapter;
+    private static final String CURRENT_LOADER_ID = "currentLoaderId";
 
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -50,6 +48,7 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
     public static VideoActivity mInstance;
 
     public String fav_frag;
+    private static int currentLoaderId;
 
     //   @BindView(R.id.recycler_video)
     RecyclerView recyclerView;
@@ -72,43 +71,55 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        String searchkey = getIntent().getStringExtra("keyword");
-        System.out.println("huuuwwwwwwwwwwwwwwwww " + searchkey);
 
 
-        dummy = new ArrayList<Video>();
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_video);
-        mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(mLayoutManager); // set LayoutManager to RecyclerView
-        recyclerView.setHasFixedSize(true);
-
-        if (searchkey.equals("facemakeup")) {
-
-            url = url1;
-        } else if (searchkey.equals("lipsmakeup")) {
-
-            url = url2;
-        } else if (searchkey.equals("eyemakeup")) {
-
-            url = url3;
-        } else {
-            fval = "fav";
 
 
-            Log.i("favvvvvvv", fval);
+            String searchkey = getIntent().getStringExtra("keyword");
+            System.out.println("huuuwwwwwwwwwwwwwwwww " + searchkey);
+
+
+            dummy = new ArrayList<Video>();
+            recyclerView = (RecyclerView) findViewById(R.id.recycler_video);
+
+
+
+            mLayoutManager = new GridLayoutManager(this,2);
+            recyclerView.setLayoutManager(mLayoutManager); // set LayoutManager to RecyclerView
+            recyclerView.setHasFixedSize(true);
+
+
+            if (searchkey.equals("facemakeup")) {
+
+                url = url1;
+            } else if (searchkey.equals("lipsmakeup")) {
+
+                url = url2;
+            } else if (searchkey.equals("eyemakeup")) {
+
+                url = url3;
+            } else {
+                fval = "fav";
+
+
+                Log.i("favvvvvvv", fval);
+            }
+            System.out.println("aaaaaaaaaaaaa " + url);
+
+
+            if (url != null && fval == null) {
+                getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+                currentLoaderId = LOADER_ID;
+            }
+            else {
+                getSupportLoaderManager().initLoader(LOADER_FAV, null, this).forceLoad();
+                currentLoaderId = LOADER_FAV;
+            }
+
+            Log.i("Video Activity", "Checking");
+
         }
-        System.out.println("aaaaaaaaaaaaa " + url);
 
-
-        if(url!=null && fval==null)
-        getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
-
-      else
-        getSupportLoaderManager().initLoader(LOADER_FAV, null,  this).forceLoad();
-
-
-        Log.i("Video Activity", "Checking");
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -151,12 +162,13 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader loader, Object data) {
         if (loader.getId() == LOADER_ID) {
-            myAdapter = new VideoAdapter(this, (ArrayList<Video>) data);
+           VideoAdapter myAdapter = new VideoAdapter(this, (ArrayList<Video>) data);
             recyclerView.setAdapter(myAdapter);
             Log.i("Adapter set", "OnLoadFinished");
             myAdapter.notifyDataSetChanged();
-        } else if (loader.getId() == LOADER_FAV) {
-            fAdapter = new FavouriteAdapter(this);
+        }
+            else if (loader.getId() == LOADER_FAV) {
+           FavouriteAdapter  fAdapter = new FavouriteAdapter(this);
             recyclerView.setAdapter(fAdapter);
             Log.i("Adapter set fav", "OnLoad");
             Log.i("Data coming", data.toString());

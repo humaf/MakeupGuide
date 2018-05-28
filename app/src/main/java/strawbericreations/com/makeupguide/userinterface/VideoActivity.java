@@ -37,7 +37,6 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
 
     private static final int LOADER_FAV = 2;
 
-    private static final String CURRENT_LOADER_ID = "currentLoaderId";
 
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -46,9 +45,6 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
     public boolean check = false;
 
     public static VideoActivity mInstance;
-
-    public String fav_frag;
-    private static int currentLoaderId;
 
     //   @BindView(R.id.recycler_video)
     RecyclerView recyclerView;
@@ -70,8 +66,6 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
-
-
 
 
 
@@ -109,11 +103,11 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
 
             if (url != null && fval == null) {
                 getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
-                currentLoaderId = LOADER_ID;
+
             }
             else {
                 getSupportLoaderManager().initLoader(LOADER_FAV, null, this).forceLoad();
-                currentLoaderId = LOADER_FAV;
+
             }
 
             Log.i("Video Activity", "Checking");

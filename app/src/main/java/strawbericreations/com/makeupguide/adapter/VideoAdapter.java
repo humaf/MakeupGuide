@@ -29,8 +29,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     private ArrayList<Video> mvideoItemList  ;
     private static Context mContext;
 
-
-
    public VideoAdapter(Context context, ArrayList<Video> videoItemList) {
         this.mvideoItemList = videoItemList;
         this.mContext = context;
@@ -76,7 +74,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
 
 
     }
-
     @Override
     public int getItemCount() {
 //        Log.i("size in Adapter", String.valueOf(mvideoItemList.size()));

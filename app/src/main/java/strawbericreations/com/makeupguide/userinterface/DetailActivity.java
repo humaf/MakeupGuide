@@ -39,7 +39,6 @@ public class DetailActivity extends YouTubeBaseActivity {
         Bundle b = in.getExtras();
 
         if(b!=null){
-
             vid = (String) b.get("VideoId");
             image = (String)b.get("Image");
             title = (String)b.get("title");
@@ -73,7 +72,6 @@ public class DetailActivity extends YouTubeBaseActivity {
         values.put(FavoritesContract.FavoriteEntry.COLUMN_ID, vid);
         values.put(FavoritesContract.FavoriteEntry.COLUMN_TITLE,title);
         values.put(FavoritesContract.FavoriteEntry.COLUMN_IMAGE, image);
-
         Uri check = resolver.insert(uri, values);
         Toast toast = Toast.makeText(getApplicationContext(),"Added to Favourites",Toast.LENGTH_LONG);
         toast.show();

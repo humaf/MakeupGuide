@@ -25,7 +25,7 @@ import strawbericreations.com.makeupguide.userinterface.DetailActivity;
 
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder> {
 
-    private static final String EXTRA_VIDEO = "video";
+ //   private static final String EXTRA_VIDEO = "video";
     private Context fContext;
     private Cursor cursor;
 
@@ -93,7 +93,8 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
                 public void onClick(View view) {
                     Intent in = new Intent(fContext, DetailActivity.class);
                     Video video = getCurrentVideo(getAdapterPosition());
-                    in.putExtra(EXTRA_VIDEO,video);
+                   String vid = video.getId();
+                    in.putExtra("VideoId",vid);
                     fContext.startActivity(in);
 
                 }
@@ -110,12 +111,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
         }
 
     }
-
-
-
-
-
-
 
 
     /*    public void setOnItemClickListener(OnItemClickListener iListener){

@@ -22,16 +22,23 @@
         </activity>
         <activity android:name=".userinterface.VideoActivity" />
         <activity android:name=".userinterface.DetailActivity" />
+
         <provider
-            android:authorities="strawbericreations.com.makeupguide"
             android:name=".database.FavoritesProvider"
-            android:multiprocess="true"
+            android:authorities="strawbericreations.com.makeupguide"
             android:enabled="true"
             android:exported="true"
-            >
-        </provider>
+            android:multiprocess="true" />
 
+        <receiver android:name=".widget.MakeupWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/makeup_widget_provider_info" />
+        </receiver>
     </application>
-
 
 </manifest>

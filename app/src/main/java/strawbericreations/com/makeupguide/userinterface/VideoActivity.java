@@ -1,5 +1,6 @@
 package strawbericreations.com.makeupguide.userinterface;
 
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.content.CursorLoader;
@@ -22,7 +23,11 @@ import strawbericreations.com.makeupguide.adapter.VideoAdapter;
 import strawbericreations.com.makeupguide.database.FavoritesContract;
 import strawbericreations.com.makeupguide.model.Video;
 import strawbericreations.com.makeupguide.utility.Constants;
+import strawbericreations.com.makeupguide.widget.MakeupWidgetProvider;
+
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+
 
 public class VideoActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks {
 
@@ -39,6 +45,8 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
 
 
     private RecyclerView.LayoutManager mLayoutManager;
+
+    public static String toPrint="";
 
     ArrayList<Video> dummy;
 
@@ -62,23 +70,18 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
 
     public static String url3 = Constants.API_URL_EYE;
 
+    public String toSend;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
-
-
-
-            String searchkey = getIntent().getStringExtra("keyword");
+         String searchkey = getIntent().getStringExtra("keyword");
             System.out.println("huuuwwwwwwwwwwwwwwwww " + searchkey);
-
 
             dummy = new ArrayList<Video>();
             recyclerView = (RecyclerView) findViewById(R.id.recycler_video);
-
-
-
-            mLayoutManager = new GridLayoutManager(this,2);
+           mLayoutManager = new GridLayoutManager(this,2);
             recyclerView.setLayoutManager(mLayoutManager); // set LayoutManager to RecyclerView
             recyclerView.setHasFixedSize(true);
 
@@ -95,7 +98,6 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
             } else {
                 fval = "fav";
 
-
                 Log.i("favvvvvvv", fval);
             }
             System.out.println("aaaaaaaaaaaaa " + url);
@@ -109,10 +111,10 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
                 getSupportLoaderManager().initLoader(LOADER_FAV, null, this).forceLoad();
 
             }
-
+        //    updateWidget();
             Log.i("Video Activity", "Checking");
 
-        }
+    }
 
 
     @Override
@@ -150,7 +152,6 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
         }
 
         return null;
-
     }
 
     @Override
@@ -160,15 +161,16 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
             recyclerView.setAdapter(myAdapter);
             Log.i("Adapter set", "OnLoadFinished");
             myAdapter.notifyDataSetChanged();
+            updateWidget();
         }
-            else if (loader.getId() == LOADER_FAV) {
-           FavouriteAdapter  fAdapter = new FavouriteAdapter(this);
+        else if (loader.getId() == LOADER_FAV) {
+           FavouriteAdapter fAdapter = new FavouriteAdapter(this);
             recyclerView.setAdapter(fAdapter);
             Log.i("Adapter set fav", "OnLoad");
             Log.i("Data coming", data.toString());
             fAdapter.swapCursor((Cursor) data);
+            updateWidget();
         }
-
     }
 
     @Override
@@ -219,14 +221,13 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
                 e.printStackTrace();
             }
             Log.i("JSON dattttt", result);
-
-
             return parseJsonData(result);
         }
 
         public static ArrayList<Video> parseJsonData(String jsonstr) {
 
-            //   final ArrayList<Video> videoArrayList = new ArrayList<Video>();
+        ArrayList<String> widitem = new ArrayList<>();
+
             try {
                 JSONObject object = new JSONObject(jsonstr);
                 JSONArray items = object.getJSONArray("items");
@@ -237,6 +238,7 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
                     Log.i("snippet", jObject.toString());
                     String title = jObject.getString("title");
                     Log.i("TITLE", title);
+                    widitem.add(title);
                     item.setTitle(title);
                     JSONObject jObject1 = items.getJSONObject(i).getJSONObject("id");
                     String id = jObject1.getString("videoId");
@@ -247,13 +249,26 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
                     Log.i("IMAGE", image);
                     item.setThumbnailURL(image);
                     videoArrayList.add(item);
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-//            Log.i("vvvvvvvvvvvv",videoArrayList.toString());
+            for(int i=0; i<widitem.size(); i++){
+                toPrint +=  widitem.get(i) + "\n";
+                Log.i("Widget data",toPrint);
+            }
             return videoArrayList;
         }
+    }
+
+    private void updateWidget() {
+        Intent i = new Intent(this, MakeupWidgetProvider.class);
+          Log.i("updateWidget","Called from here");
+          System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + toPrint);
+          Log.i("String val", toPrint);
+        Toast.makeText(getApplicationContext(), "from the activity",
+                Toast.LENGTH_SHORT).show();
+        i.putExtra("widget",toPrint);
+        sendBroadcast(i);
     }
 }

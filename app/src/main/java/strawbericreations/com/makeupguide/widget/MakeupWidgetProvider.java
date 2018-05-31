@@ -56,10 +56,7 @@ public class MakeupWidgetProvider extends AppWidgetProvider {
 
             //Update the widget
             manager.updateAppWidget(provider, views);
-
         }
-
-       // super.onReceive(context, intent);
     }
 }
 

@@ -1,8 +1,10 @@
 package strawbericreations.com.makeupguide.userinterface;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v4.content.CursorLoader;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
@@ -79,11 +81,13 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
          String searchkey = getIntent().getStringExtra("keyword");
             System.out.println("huuuwwwwwwwwwwwwwwwww " + searchkey);
 
-            dummy = new ArrayList<Video>();
-            recyclerView = (RecyclerView) findViewById(R.id.recycler_video);
-           mLayoutManager = new GridLayoutManager(this,2);
-            recyclerView.setLayoutManager(mLayoutManager); // set LayoutManager to RecyclerView
-            recyclerView.setHasFixedSize(true);
+        dummy = new ArrayList<Video>();
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_video);
+        mLayoutManager = new GridLayoutManager(this,2);
+        recyclerView.setLayoutManager(mLayoutManager); // set LayoutManager to RecyclerView
+        recyclerView.setHasFixedSize(true);
+        ItemDecorator itemDecoration = new ItemDecorator(this, R.dimen.item_offset);
+        recyclerView.addItemDecoration(itemDecoration);
 
 
             if (searchkey.equals("facemakeup")) {
@@ -102,18 +106,18 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
             }
             System.out.println("aaaaaaaaaaaaa " + url);
 
-
+        if(isNetworkAvailable(getApplicationContext())) {
             if (url != null && fval == null) {
                 getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
 
-            }
-            else {
+            } else {
                 getSupportLoaderManager().initLoader(LOADER_FAV, null, this).forceLoad();
 
             }
-        //    updateWidget();
             Log.i("Video Activity", "Checking");
-
+        }
+        else
+            Toast.makeText(getApplicationContext(),"Please Connect to the INTERNET",Toast.LENGTH_LONG).show();
     }
 
 
@@ -142,13 +146,14 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
             Log.i("Proper Load", "coming or not");
             return new VideoListLoader(this);
         } else if (id == LOADER_FAV) {
-            // return new FavoriteListLoader(getActivity());
-            String[] projection = new String[]{
+           // return new FavoriteListLoader(getApplicationContext());
+          String[] projection = new String[]{
                     FavoritesContract.FavoriteEntry.COLUMN_ID,
                     FavoritesContract.FavoriteEntry.COLUMN_IMAGE,
                     FavoritesContract.FavoriteEntry.COLUMN_TITLE};
 
             return new CursorLoader(this, FavoritesContract.FavoriteEntry.CONTENT_URI, projection, null, null, null);
+
         }
 
         return null;
@@ -164,7 +169,8 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
             updateWidget();
         }
         else if (loader.getId() == LOADER_FAV) {
-           FavouriteAdapter fAdapter = new FavouriteAdapter(this);
+
+         FavouriteAdapter fAdapter = new FavouriteAdapter(this);
             recyclerView.setAdapter(fAdapter);
             Log.i("Adapter set fav", "OnLoad");
             Log.i("Data coming", data.toString());
@@ -271,4 +277,46 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
         i.putExtra("widget",toPrint);
         sendBroadcast(i);
     }
+
+/*    public static class FavoriteListLoader extends AsyncTaskLoader<ArrayList<Video>> {
+
+
+        private static ArrayList<Video> videos;
+
+        public FavoriteListLoader(Context context) {
+            super(context);
+        }
+
+        @Override
+        public ArrayList<Video> loadInBackground() {
+
+            Uri uri = FavoritesContract.FavoriteEntry.CONTENT_URI;
+            ContentResolver resolver = mInstance.getApplicationContext().getContentResolver();
+            Cursor cursor = null;
+
+            try {
+                videos = new ArrayList<Video>();
+                cursor = resolver.query(uri, null, null, null, null);
+
+                // clear movies
+                videos.clear();
+
+                if (cursor.moveToFirst()) {
+                    do {
+                        Video video = new Video();
+                        //    movie.setReviews(cursor.getString(6));
+                        //  movie.setTrailers(cursor.getString(7));
+                        videos.add(video);
+                    } while (cursor.moveToNext());
+                }
+
+            } finally {
+
+                if (cursor != null)
+                    cursor.close();
+            }
+            return videos;
+
+        }
+    }*/
 }

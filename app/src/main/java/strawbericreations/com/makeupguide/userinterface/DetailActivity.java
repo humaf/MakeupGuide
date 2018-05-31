@@ -26,23 +26,19 @@ import static strawbericreations.com.makeupguide.utility.Constants.API_KEY;
 public class DetailActivity extends YouTubeBaseActivity {
 
     YouTubePlayerView youTubePlayerView;
-    Button fav;
+
     ImageView favorite;
     String vid,image,title;
     private int id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         youTubePlayerView=(YouTubePlayerView)findViewById(R.id.youtubeview);
-
-        fav =(Button)findViewById(R.id.favbtn);
-
         favorite =(ImageView)findViewById(R.id.fav);
-
         Intent in = getIntent();
-
         Bundle b = in.getExtras();
 
         if(b!=null){
@@ -69,9 +65,7 @@ public class DetailActivity extends YouTubeBaseActivity {
                 });
    }
 
-
-
-        public void favo(View view) {
+      public void favo(View view) {
             boolean inFavorites = checkFavorites();
             if(inFavorites){
                 deleteFromFavorites();
@@ -105,6 +99,9 @@ public class DetailActivity extends YouTubeBaseActivity {
         long noDeleted = resolver.delete(uri,
                 FavoritesContract.FavoriteEntry.COLUMN_ID+ " = ? ",
                 new String[]{ id + "" });
+        Toast toast = Toast.makeText(getApplicationContext(),"Removed from Favourites",Toast.LENGTH_LONG);
+        toast.show();
+
 
     }
     /*
@@ -122,6 +119,7 @@ public class DetailActivity extends YouTubeBaseActivity {
 
             if (cursor.moveToFirst())
                 return true;
+
         }
         finally {
 
@@ -131,11 +129,8 @@ public class DetailActivity extends YouTubeBaseActivity {
         return false;
     }
 
-
     private void toggleFavorites(){
         boolean inFavorites = checkFavorites();
-        //    ImageButton addToFav = (ImageButton) rootView.findViewById(R.id.fav);
-
         if(inFavorites){
             favorite.setImageResource(R.drawable.yellow_star);
         }else{

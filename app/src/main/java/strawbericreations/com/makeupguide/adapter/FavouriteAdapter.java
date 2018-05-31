@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,6 @@ import strawbericreations.com.makeupguide.userinterface.DetailActivity;
 
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.ViewHolder> {
 
- //   private static final String EXTRA_VIDEO = "video";
     private Context fContext;
     private Cursor cursor;
 
@@ -65,7 +65,9 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
         if (cursor == null) {
             return 0;
         }
+        Log.i("Cursor size",String.valueOf(cursor.getCount()));
         return cursor.getCount();
+
     }
 
     public void swapCursor(Cursor cursor) {
@@ -80,8 +82,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
         @BindView(R.id.image_item)
         ImageView imageView;
-
-        //  private OnItemClickListener onItemClickListener;
 
         public ViewHolder(View view) {
             super(view);
@@ -99,7 +99,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
                 }
             });
-            //  titleView.setOnClickListener(this);
+
         }
 
         private Video getCurrentVideo(int adapterPosition) {
@@ -112,14 +112,6 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
     }
 
-
-    /*    public void setOnItemClickListener(OnItemClickListener iListener){
-            this.onItemClickListener = iListener;
-        }
-        @Override
-        public void onClick(View view) {
-            onItemClickListener.onItemClick(view,getAdapterPosition());
-        }*/
 }
 
 

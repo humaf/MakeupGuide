@@ -41,11 +41,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         mAdView.loadAd(request);
 
-
         dataIntent = new Intent(this, VideoActivity.class);
     }
-
-
 
     public void eyesClick(View view) {
         dataIntent.putExtra("keyword", "eyemakeup");

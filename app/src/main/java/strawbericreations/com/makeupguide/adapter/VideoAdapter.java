@@ -48,16 +48,19 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
         Log.i("Bindr position",String.valueOf(position));
        Video video = mvideoItemList.get(position);
      final  String title = video.getTitle();
+     System.out.println("--------------------" + title);
+
 
        Log.i("holder pos" ,String.valueOf(holder.getAdapterPosition()));
          holder.titleView.setText(video.getTitle());
       final  String imageUrl = video.getThumbnailURL();
-        Log.i("Adapter image",imageUrl);
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^" + imageUrl);
+
 
       final  String videoId = video.getId();
+      System.out.println("************************" + videoId);
 
-
-        if (imageUrl != null) {
+      if (imageUrl != null) {
             Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
         }
         holder.setOnItemClickListener(new OnItemClickListener() {

@@ -26,10 +26,8 @@ import strawbericreations.com.makeupguide.database.FavoritesContract;
 import strawbericreations.com.makeupguide.model.Video;
 import strawbericreations.com.makeupguide.utility.Constants;
 import strawbericreations.com.makeupguide.widget.MakeupWidgetProvider;
-
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -88,6 +86,7 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
         recyclerView.setHasFixedSize(true);
         ItemDecorator itemDecoration = new ItemDecorator(this, R.dimen.item_offset);
         recyclerView.addItemDecoration(itemDecoration);
+        mInstance = this;
 
 
             if (searchkey.equals("facemakeup")) {
@@ -141,27 +140,23 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-
         if (id == LOADER_ID) {
             Log.i("Proper Load", "coming or not");
             return new VideoListLoader(this);
         } else if (id == LOADER_FAV) {
-           // return new FavoriteListLoader(getApplicationContext());
-          String[] projection = new String[]{
+          //  return new FavoriteListLoader(getApplicationContext());
+         String[] projection = new String[]{
                     FavoritesContract.FavoriteEntry.COLUMN_ID,
                     FavoritesContract.FavoriteEntry.COLUMN_IMAGE,
                     FavoritesContract.FavoriteEntry.COLUMN_TITLE};
-
             return new CursorLoader(this, FavoritesContract.FavoriteEntry.CONTENT_URI, projection, null, null, null);
-
         }
-
         return null;
     }
 
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        if (loader.getId() == LOADER_ID) {
+       if (loader.getId() == LOADER_ID) {
            VideoAdapter myAdapter = new VideoAdapter(this, (ArrayList<Video>) data);
             recyclerView.setAdapter(myAdapter);
             Log.i("Adapter set", "OnLoadFinished");
@@ -278,45 +273,36 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
         sendBroadcast(i);
     }
 
-/*    public static class FavoriteListLoader extends AsyncTaskLoader<ArrayList<Video>> {
-
+    public static class FavoriteListLoader extends AsyncTaskLoader<ArrayList<Video>> {
 
         private static ArrayList<Video> videos;
 
         public FavoriteListLoader(Context context) {
             super(context);
         }
-
         @Override
         public ArrayList<Video> loadInBackground() {
-
             Uri uri = FavoritesContract.FavoriteEntry.CONTENT_URI;
             ContentResolver resolver = mInstance.getApplicationContext().getContentResolver();
             Cursor cursor = null;
-
             try {
                 videos = new ArrayList<Video>();
                 cursor = resolver.query(uri, null, null, null, null);
-
-                // clear movies
+                // clear videos
                 videos.clear();
-
                 if (cursor.moveToFirst()) {
                     do {
                         Video video = new Video();
-                        //    movie.setReviews(cursor.getString(6));
-                        //  movie.setTrailers(cursor.getString(7));
+                        Log.i("Videossss dataaaaaa",video.toString());
                         videos.add(video);
                     } while (cursor.moveToNext());
                 }
-
             } finally {
-
                 if (cursor != null)
                     cursor.close();
             }
+            Log.i("fav data",videos.toString());
             return videos;
-
         }
-    }*/
+    }
 }

@@ -11,15 +11,15 @@ import android.os.Parcelable;
 public class Video implements Parcelable{
 
     private  String id;
-    private   String thumbnailURL;
-    private String title;
+    private  String thumbnailURL;
+    private  String title;
 
-  /*  public Video(String title, String imageUrl, String videoId) {
+  /* public Video(String title, String imageUrl, String videoId) {
         this.title = title;
         this.thumbnailURL = imageUrl ;
         this.id = videoId;
-    }*/
-
+    }
+*/
   public Video(){
       super();
   }
@@ -71,7 +71,7 @@ public class Video implements Parcelable{
     public static final Parcelable.Creator<Video> CREATOR = new Creator<Video>() {
         @Override
         public Video createFromParcel(Parcel source) {
-         //   Video list = new Video(title, thumbnailURL, id);
+          //  Video list = new Video(title, thumbnailURL, id);
             Video list = new Video();
             list.id = source.readString();
             list.thumbnailURL = source.readString();

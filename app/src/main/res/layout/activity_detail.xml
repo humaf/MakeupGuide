@@ -7,14 +7,12 @@
     android:background="@color/colorBackground"
     tools:context="strawbericreations.com.makeupguide.userinterface.DetailActivity">
 
-
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/youtubeview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp"
    />
-
 
     <ImageView
         android:id="@+id/fav"
@@ -24,10 +22,7 @@
         android:onClick="favo"
         android:elevation="4dp"
         android:layout_gravity="center"
-        android:src="@drawable/yellow_star"
+        android:src="@drawable/gray"
         tools:ignore="OnClick"
         />
-
-
-
 </LinearLayout>

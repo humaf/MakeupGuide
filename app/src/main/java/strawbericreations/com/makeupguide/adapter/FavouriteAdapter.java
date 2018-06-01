@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import strawbericreations.com.makeupguide.R;
@@ -28,7 +26,9 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
 
     private Context fContext;
     private Cursor cursor;
-
+    String title;
+    String imageUrl;
+    String id;
 
     public FavouriteAdapter(Context context) {
 
@@ -50,11 +50,13 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
         }
         cursor.moveToPosition(position);
 
-        String title = cursor.getString(cursor.getColumnIndexOrThrow(FavoritesContract.FavoriteEntry.COLUMN_TITLE));
+        id = cursor.getString(cursor.getColumnIndexOrThrow(FavoritesContract.FavoriteEntry.COLUMN_ID));
+
+         title = cursor.getString(cursor.getColumnIndexOrThrow(FavoritesContract.FavoriteEntry.COLUMN_TITLE));
 
         holder.titleView.setText(title);
 
-        String imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(FavoritesContract.FavoriteEntry.COLUMN_IMAGE));
+        imageUrl = cursor.getString(cursor.getColumnIndexOrThrow(FavoritesContract.FavoriteEntry.COLUMN_IMAGE));
 
         Picasso.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
 
@@ -93,25 +95,31 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
                 public void onClick(View view) {
                     Intent in = new Intent(fContext, DetailActivity.class);
                     Video video = getCurrentVideo(getAdapterPosition());
-                   String vid = video.getId();
+                  String vid = video.getId();
+                  String tit = video.getTitle();
+                  String img = video.getThumbnailURL() ;
                     in.putExtra("VideoId",vid);
+                   in.putExtra("Title",tit);
+                   in.putExtra("Image",img);
                     fContext.startActivity(in);
-
                 }
             });
 
         }
 
         private Video getCurrentVideo(int adapterPosition) {
-
+            cursor.moveToPosition(adapterPosition);
             Video video = new Video();
             String videoId = cursor.getString(cursor.getColumnIndexOrThrow(FavoritesContract.FavoriteEntry.COLUMN_ID));
+            String image = cursor.getString(cursor.getColumnIndexOrThrow(FavoritesContract.FavoriteEntry.COLUMN_IMAGE));
+            String title = cursor.getString(cursor.getColumnIndexOrThrow(FavoritesContract.FavoriteEntry.COLUMN_TITLE));
+
             video.setId(videoId);
+            video.setThumbnailURL(image);
+            video.setTitle(title);
             return video;
         }
-
     }
-
 }
 
 

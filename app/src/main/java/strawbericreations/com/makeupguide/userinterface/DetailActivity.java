@@ -44,7 +44,8 @@ public class DetailActivity extends YouTubeBaseActivity {
         if(b!=null){
             vid = (String) b.get("VideoId");
             image = (String)b.get("Image");
-            title = (String)b.get("title");
+            title = (String)b.get("Title");
+
         }
 
 
@@ -132,9 +133,9 @@ public class DetailActivity extends YouTubeBaseActivity {
     private void toggleFavorites(){
         boolean inFavorites = checkFavorites();
         if(inFavorites){
-            favorite.setImageResource(R.drawable.yellow_star);
-        }else{
             favorite.setImageResource(R.drawable.gray);
+        }else{
+            favorite.setImageResource(R.drawable.yellow_star);
         }
     }
 

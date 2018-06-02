@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by redrose on 5/19/18.
@@ -38,6 +39,7 @@ public class FavoritesProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private FavoritesDBHelper mOpenHelper;
     private SQLiteDatabase favDB;
+    boolean thrown = true;
 
     private static UriMatcher buildUriMatcher() {
 
@@ -119,8 +121,10 @@ public class FavoritesProvider extends ContentProvider {
         try {
             throw new SQLException("Failed to add new record into "+uri);
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
+
         return null;
     }
 

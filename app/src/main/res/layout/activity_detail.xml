@@ -14,15 +14,39 @@
         android:layout_margin="10dp"
    />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Add Favorite"
+            android:textColor="@color/textColor"
+            android:layout_weight="0.5"
+            android:onClick="addToFavorites"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Remove Favorite"
+            android:textColor="@color/textColor"
+            android:layout_weight="0.5"
+            android:onClick="delete"/>
+
+
+
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/fav"
         android:layout_marginTop="20dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:onClick="favo"
         android:elevation="4dp"
+        android:src="@drawable/yellow_star"
         android:layout_gravity="center"
-        android:src="@drawable/gray"
-        tools:ignore="OnClick"
+
         />
 </LinearLayout>

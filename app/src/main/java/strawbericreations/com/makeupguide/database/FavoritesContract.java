@@ -43,10 +43,13 @@ public class FavoritesContract implements BaseColumns{
                 ContentResolver.CURSOR_ITEM_BASE_TYPE +"/" + CONTENT_AUTHORITY + "/" + TABLE_FAVOURITES;
 
         // for building URIs on insertion
-        public static Uri buildFavouritesUri(int id){
+       public static Uri buildFavouritesUri(int id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
+   /*     public static Uri buildFavouritesUri(String id){
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }*/
         public static final String[] PROJECTION_ALL =
                 {COLUMN_ID, COLUMN_IMAGE, COLUMN_TITLE};
 

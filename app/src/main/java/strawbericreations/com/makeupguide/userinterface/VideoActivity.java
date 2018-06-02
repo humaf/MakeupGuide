@@ -87,9 +87,7 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
         ItemDecorator itemDecoration = new ItemDecorator(this, R.dimen.item_offset);
         recyclerView.addItemDecoration(itemDecoration);
         mInstance = this;
-
-
-            if (searchkey.equals("facemakeup")) {
+          if (searchkey.equals("facemakeup")) {
 
                 url = url1;
             } else if (searchkey.equals("lipsmakeup")) {
@@ -273,36 +271,5 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
         sendBroadcast(i);
     }
 
-    public static class FavoriteListLoader extends AsyncTaskLoader<ArrayList<Video>> {
 
-        private static ArrayList<Video> videos;
-
-        public FavoriteListLoader(Context context) {
-            super(context);
-        }
-        @Override
-        public ArrayList<Video> loadInBackground() {
-            Uri uri = FavoritesContract.FavoriteEntry.CONTENT_URI;
-            ContentResolver resolver = mInstance.getApplicationContext().getContentResolver();
-            Cursor cursor = null;
-            try {
-                videos = new ArrayList<Video>();
-                cursor = resolver.query(uri, null, null, null, null);
-                // clear videos
-                videos.clear();
-                if (cursor.moveToFirst()) {
-                    do {
-                        Video video = new Video();
-                        Log.i("Videossss dataaaaaa",video.toString());
-                        videos.add(video);
-                    } while (cursor.moveToNext());
-                }
-            } finally {
-                if (cursor != null)
-                    cursor.close();
-            }
-            Log.i("fav data",videos.toString());
-            return videos;
-        }
-    }
 }

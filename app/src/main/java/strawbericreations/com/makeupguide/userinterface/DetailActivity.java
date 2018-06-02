@@ -21,6 +21,7 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import strawbericreations.com.makeupguide.R;
 import strawbericreations.com.makeupguide.database.FavoritesContract;
 
+import static android.view.View.VISIBLE;
 import static strawbericreations.com.makeupguide.utility.Constants.API_KEY;
 
 public class DetailActivity extends YouTubeBaseActivity {
@@ -30,6 +31,7 @@ public class DetailActivity extends YouTubeBaseActivity {
     ImageView favorite;
     String vid,image,title;
     private int id;
+    boolean isFav;
 
 
     @Override
@@ -45,9 +47,9 @@ public class DetailActivity extends YouTubeBaseActivity {
             vid = (String) b.get("VideoId");
             image = (String)b.get("Image");
             title = (String)b.get("Title");
+          //  id = getIntent().getIntExtra("id",0);
 
         }
-
 
         youTubePlayerView.initialize("YOUR API KEY",
                 new YouTubePlayer.OnInitializedListener() {
@@ -59,27 +61,19 @@ public class DetailActivity extends YouTubeBaseActivity {
                         youTubePlayer.cueVideo(vid);
                     }
                     @Override
-                    public void onInitializationFailure(YouTubePlayer.Provider provider,
-                                                        YouTubeInitializationResult youTubeInitializationResult) {
+                    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
 
                     }
                 });
    }
 
-      public void favo(View view) {
-            boolean inFavorites = checkFavorites();
-            if(inFavorites){
-                deleteFromFavorites();
-            }else{
-                addToFavorites(view);
-            }
-            toggleFavorites();
-        }
 
 
+      public void delete(View view){
+        deleteFromFavorites(vid);
+      }
 
     public void addToFavorites(View view) {
-
         Uri uri = FavoritesContract.FavoriteEntry.CONTENT_URI;
         ContentResolver resolver = getApplicationContext().getContentResolver();
         ContentValues values = new ContentValues();
@@ -90,19 +84,23 @@ public class DetailActivity extends YouTubeBaseActivity {
         Uri check = resolver.insert(uri, values);
         Toast toast = Toast.makeText(getApplicationContext(),"Added to Favourites",Toast.LENGTH_LONG);
         toast.show();
+        isFav = true;
+        toggleFavorites();
+
+     //   favorite.setVisibility(VISIBLE);
     }
 
-    private void deleteFromFavorites() {
+    public void deleteFromFavorites(String ids) {
 
         Uri uri = FavoritesContract.FavoriteEntry.CONTENT_URI;
         ContentResolver resolver = getApplicationContext().getContentResolver();
-
         long noDeleted = resolver.delete(uri,
                 FavoritesContract.FavoriteEntry.COLUMN_ID+ " = ? ",
-                new String[]{ id + "" });
+                new String[]{ ids + "" });
         Toast toast = Toast.makeText(getApplicationContext(),"Removed from Favourites",Toast.LENGTH_LONG);
         toast.show();
-
+        isFav = false;
+toggleFavorites();
 
     }
     /*
@@ -115,9 +113,7 @@ public class DetailActivity extends YouTubeBaseActivity {
         ContentResolver resolver = getApplicationContext().getContentResolver();
         Cursor cursor = null;
         try {
-
             cursor = resolver.query(uri, null, null, null, null);
-
             if (cursor.moveToFirst())
                 return true;
 
@@ -131,11 +127,11 @@ public class DetailActivity extends YouTubeBaseActivity {
     }
 
     private void toggleFavorites(){
-        boolean inFavorites = checkFavorites();
-        if(inFavorites){
-            favorite.setImageResource(R.drawable.gray);
-        }else{
+       // boolean inFavorites = checkFavorites();
+        if(isFav){
             favorite.setImageResource(R.drawable.yellow_star);
+        }else{
+            favorite.setImageResource(R.drawable.gray);
         }
     }
 

@@ -98,6 +98,7 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.View
                   String vid = video.getId();
                   String tit = video.getTitle();
                   String img = video.getThumbnailURL() ;
+                    in.putExtra("id", video.getId());
                     in.putExtra("VideoId",vid);
                    in.putExtra("Title",tit);
                    in.putExtra("Image",img);

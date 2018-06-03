@@ -114,7 +114,7 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
             Log.i("Video Activity", "Checking");
         }
         else
-            Toast.makeText(getApplicationContext(),"Please Connect to the INTERNET",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),R.string.NetworkToast,Toast.LENGTH_LONG).show();
     }
 
 

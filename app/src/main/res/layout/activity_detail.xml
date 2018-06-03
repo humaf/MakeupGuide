@@ -22,7 +22,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Add Favorite"
+            android:hint="@string/AddingFavs"
             android:textColor="@color/textColor"
             android:layout_weight="0.5"
             android:onClick="addToFavorites"/>
@@ -30,7 +30,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Remove Favorite"
+            android:hint="@string/DeletingFavs"
             android:textColor="@color/textColor"
             android:layout_weight="0.5"
             android:onClick="delete"/>
@@ -45,6 +45,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:elevation="4dp"
+        android:contentDescription="@string/desc"
         android:src="@drawable/yellow_star"
         android:layout_gravity="center"
 

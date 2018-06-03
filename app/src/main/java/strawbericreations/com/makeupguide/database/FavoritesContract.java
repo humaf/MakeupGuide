@@ -47,9 +47,6 @@ public class FavoritesContract implements BaseColumns{
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
-   /*     public static Uri buildFavouritesUri(String id){
-            return ContentUris.withAppendedId(CONTENT_URI, id);
-        }*/
         public static final String[] PROJECTION_ALL =
                 {COLUMN_ID, COLUMN_IMAGE, COLUMN_TITLE};
 

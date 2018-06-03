@@ -12,6 +12,13 @@
     <string name="ADUNIT">ca-app-pub-9060605571815283~3933399053</string>
     <string name="add_widget">Add widget</string>
     <string name="appwidget_text">Makeup Video</string>
+    <string name="toast_add_favs">Added to Favorites</string>
+    <string name="toast_delete_favs">Delete from Favorites</string>
+    <string name="AddingFavs">Add Favorites</string>
+    <string name="DeletingFavs">Delete Favorites</string>
+    <string name="NetworkToast">Please connect to Internet</string>
+    <string name="desc">Image used for showing if its fav or not</string>
+    <string name="description">Thumbnail of the videos</string>
 </resources>
 
 

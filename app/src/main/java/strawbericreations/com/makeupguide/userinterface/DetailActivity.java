@@ -30,7 +30,6 @@ public class DetailActivity extends YouTubeBaseActivity {
 
     ImageView favorite;
     String vid,image,title;
-    private int id;
     boolean isFav;
 
 
@@ -47,7 +46,7 @@ public class DetailActivity extends YouTubeBaseActivity {
             vid = (String) b.get("VideoId");
             image = (String)b.get("Image");
             title = (String)b.get("Title");
-          //  id = getIntent().getIntExtra("id",0);
+
 
         }
 
@@ -82,12 +81,12 @@ public class DetailActivity extends YouTubeBaseActivity {
         values.put(FavoritesContract.FavoriteEntry.COLUMN_TITLE,title);
         values.put(FavoritesContract.FavoriteEntry.COLUMN_IMAGE, image);
         Uri check = resolver.insert(uri, values);
-        Toast toast = Toast.makeText(getApplicationContext(),"Added to Favourites",Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getApplicationContext(),R.string.AddingFavs,Toast.LENGTH_LONG);
         toast.show();
         isFav = true;
         toggleFavorites();
 
-     //   favorite.setVisibility(VISIBLE);
+
     }
 
     public void deleteFromFavorites(String ids) {
@@ -97,33 +96,11 @@ public class DetailActivity extends YouTubeBaseActivity {
         long noDeleted = resolver.delete(uri,
                 FavoritesContract.FavoriteEntry.COLUMN_ID+ " = ? ",
                 new String[]{ ids + "" });
-        Toast toast = Toast.makeText(getApplicationContext(),"Removed from Favourites",Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getApplicationContext(),getString(R.string.DeletingFavs),Toast.LENGTH_LONG);
         toast.show();
         isFav = false;
 toggleFavorites();
 
-    }
-    /*
-     * query DB to see if the movie is already there.
-     * */
-    private boolean checkFavorites() {
-        Uri uri = FavoritesContract.FavoriteEntry.buildFavouritesUri(id);
-        String[] projection = new String[]{FavoritesContract.FavoriteEntry.COLUMN_ID};
-        Log.i("checking if its null",uri.toString());
-        ContentResolver resolver = getApplicationContext().getContentResolver();
-        Cursor cursor = null;
-        try {
-            cursor = resolver.query(uri, null, null, null, null);
-            if (cursor.moveToFirst())
-                return true;
-
-        }
-        finally {
-
-            if(cursor != null )
-                cursor.close();
-        }
-        return false;
     }
 
     private void toggleFavorites(){

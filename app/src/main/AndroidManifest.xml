@@ -26,7 +26,8 @@
             android:name=".database.FavoritesProvider"
             android:authorities="strawbericreations.com.makeupguide"
             android:enabled="true"
-            android:exported="true"
+            android:exported="false"
+            android:grantUriPermissions="true"
             android:multiprocess="true" />
 
         <receiver android:name=".widget.MakeupWidgetProvider">

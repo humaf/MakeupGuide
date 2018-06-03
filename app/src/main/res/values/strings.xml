@@ -19,6 +19,10 @@
     <string name="NetworkToast">Please connect to Internet</string>
     <string name="desc">Image used for showing if its fav or not</string>
     <string name="description">Thumbnail of the videos</string>
+    <string name="eyes">Image indicates eye makeup</string>
+    <string name="face">Image indicates face makeup</string>
+    <string name="lips">Image indicates lips makeup</string>
+    <string name="favs">Image indicates favorite makeup videos</string>
 </resources>
 
 

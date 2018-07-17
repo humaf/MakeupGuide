@@ -79,7 +79,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoHolder>
     }
     @Override
     public int getItemCount() {
-//        Log.i("size in Adapter", String.valueOf(mvideoItemList.size()));
         return mvideoItemList.size();
     }
 

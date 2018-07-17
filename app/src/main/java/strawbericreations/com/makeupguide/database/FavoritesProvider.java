@@ -1,6 +1,7 @@
 package strawbericreations.com.makeupguide.database;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,10 +11,13 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
+
+import static strawbericreations.com.makeupguide.database.FavoritesContract.CONTENT_AUTHORITY;
 
 /**
  * Created by redrose on 5/19/18.
@@ -29,8 +33,8 @@ public class FavoritesProvider extends ContentProvider {
     // authority specifies the name of the content provider. For third party content providers this should be fully qualified name
     // data_type indicates the particular data the provider provides.
 
-    static final String PROVIDER_NAME = "com.strawbericreations.popularmovies.FavouritesProvider";
-    static final String URL = "content://" + PROVIDER_NAME + "/favorites";
+    static final String PROVIDER_NAME = "strawbericreations.com.makeupguide.database.FavoritesProvider";
+    static final String URL = "content://" + PROVIDER_NAME + "/favourites";
     static final Uri CONTENT_URI = Uri.parse(URL);
 
     static final int FAVORITES = 1;
@@ -44,7 +48,7 @@ public class FavoritesProvider extends ContentProvider {
     private static UriMatcher buildUriMatcher() {
 
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        final String authority = FavoritesContract.CONTENT_AUTHORITY;
+        final String authority = CONTENT_AUTHORITY;
 
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority,FavoritesContract.PATH_VIDEOS, FAVORITES);
@@ -63,8 +67,9 @@ public class FavoritesProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 
+        Log.i("Content",CONTENT_URI.toString());
         final int match = sUriMatcher.match(uri);
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
@@ -93,20 +98,25 @@ public class FavoritesProvider extends ContentProvider {
                 null,
                 null
         );
-        cursor.setNotificationUri(getContext().getContentResolver(),CONTENT_URI);
-        return cursor;
+Log.i("Cursor empty or not",cursor.toString());
+     //   cursor.setNotificationUri(getContext().getContentResolver(),CONTENT_URI);
+      //  cursor.setNotificationUri(getContext().getContentResolver(),Uri.parse("content://" + CONTENT_AUTHORITY));
+        //   getContext().getContentResolver().notifyChange(CONTENT_URI,null);
+       getContext().getContentResolver().notifyChange(Uri.parse("content://" + CONTENT_AUTHORITY), null,false);
+    //    getContext().getContentResolver().notifyChange()
+       return cursor;
 
     }
 
     @Nullable
     @Override
-    public String getType( Uri uri) {
+    public String getType(@NonNull Uri uri) {
         return null;
     }
 
     @Nullable
     @Override
-    public Uri insert( Uri uri,  ContentValues values) {
+    public Uri insert(@NonNull Uri uri,  ContentValues values) {
         long rowID = favDB.insert(FavoritesContract.FavoriteEntry.TABLE_FAVOURITES, "", values);
         Log.e(TAG,"FavoritesProvider insert rowID:"+rowID);
 
@@ -115,7 +125,8 @@ public class FavoritesProvider extends ContentProvider {
          */
         if (rowID > 0) {
             Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowID);
-            getContext().getContentResolver().notifyChange(_uri, null);
+           // getContext().getContentResolver().notifyChange(_uri, null);
+            getContext().getContentResolver().notifyChange(Uri.parse("content://" + CONTENT_AUTHORITY), null);
             return _uri;
         }
         try {
@@ -129,7 +140,7 @@ public class FavoritesProvider extends ContentProvider {
     }
 
     @Override
-    public int delete( Uri uri, String selection,  String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection,  String[] selectionArgs) {
         final SQLiteDatabase db = favDB;
         int count = 0;
 
@@ -153,7 +164,7 @@ public class FavoritesProvider extends ContentProvider {
     }
 
     @Override
-    public int update( Uri uri,  ContentValues values, String selection,  String[] selectionArgs) {
+    public int update(@NonNull Uri uri,  ContentValues values, String selection,  String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         int rowsUpdated = 0;

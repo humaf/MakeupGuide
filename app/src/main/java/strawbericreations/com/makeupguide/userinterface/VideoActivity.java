@@ -1,10 +1,9 @@
 package strawbericreations.com.makeupguide.userinterface;
 
-import android.content.ContentResolver;
+
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.support.v4.content.CursorLoader;
 import android.database.Cursor;
 import android.support.v4.app.LoaderManager;
@@ -142,7 +141,7 @@ public class VideoActivity extends AppCompatActivity implements LoaderManager.Lo
             Log.i("Proper Load", "coming or not");
             return new VideoListLoader(this);
         } else if (id == LOADER_FAV) {
-          //  return new FavoriteListLoader(getApplicationContext());
+
          String[] projection = new String[]{
                     FavoritesContract.FavoriteEntry.COLUMN_ID,
                     FavoritesContract.FavoriteEntry.COLUMN_IMAGE,

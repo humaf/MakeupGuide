@@ -19,7 +19,7 @@ Some of the challenges I faced during building this app
 
 * Implementing loaders as I was using them for the first time had to dig in a lot in documentation to make it work.
 
-* Making content providers work with android oreo.I had to see  similar problem on stack overflow to overcome it.
+* Making content providers work with android oreo.I had to see  similar problem on stack overflow and lot of searching on the internet to overcome it.
  
 
 ## Android Developer Nanodegree
@@ -33,6 +33,7 @@ This app has the following features:
 * MakeupGuide helps the users discover appropriate makeup videos based on there preference on YouTube.
 
 * Save favorites videos locally to view them offline.
+
 
 ## Screens
 
